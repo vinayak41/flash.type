@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import data from "../data/text.json";
 
 const Wrapper = styled.div`
   height: 100vh;
-  width: 100%;
   display: flex;
   justify-content: center;
 `;
@@ -20,6 +19,7 @@ const TextWrapper = styled.div`
   padding: 1rem;
   border-radius: 1rem;
   border: 1px solid rgb(204, 219, 232);
+  position: relative;
   &:focus {
     outline: none;
   }
@@ -70,13 +70,61 @@ const Character = styled.span`
   margin: 1px;
 `;
 
+const Overlay = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #ffffffb0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+`;
+
+const StartButton = styled.button`
+  width: 6rem;
+  height: 3rem;
+  background-color: #95c590;
+  border-radius: 5px;
+  border: 1px solid white;
+  box-shadow: rgb(0, 0, 0) 0px 3px 8px;
+  font-size: 1rem;
+  letter-spacing: 2px;
+`;
+
 const Home = () => {
   const [text, setText] = useState(data[1]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [wrongCharIndexList, setWrongCharIndexList] = useState([]);
+  const [testStart, setTestStart] = useState(false);
+  const typingContainerRef = useRef(null);
+
+  const handleStartTest = () => {
+    typingContainerRef.current.focus();
+  };
+
+  const handleTypingContainerOnFocus = () => {
+    setTestStart(true);
+    console.log("focused");
+  };
+
+  const handleTypingContainerOnBlur = () => {
+    setTestStart(false);
+    console.log("unfocused");
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      if (e.keyCode === 32) {
+        e.preventDefault();
+      }
+    });
+  }, []);
 
   const handleKeyPress = (event) => {
     if (event.keyCode === 8 && currentIndex) {
+      event.preventDefault();
       setWrongCharIndexList((prevList) =>
         prevList.filter((indexValue) => indexValue !== currentIndex - 1)
       );
@@ -94,7 +142,16 @@ const Home = () => {
 
   return (
     <Wrapper>
-      <TextWrapper tabIndex={0} onKeyDown={handleKeyPress}>
+      <StartButton onClick={handleStartTest}>
+        Start
+      </StartButton>
+      <TextWrapper
+        ref={typingContainerRef}
+        onFocus={handleTypingContainerOnFocus}
+        onBlur={handleTypingContainerOnBlur}
+        tabIndex={0}
+        onKeyDown={handleKeyPress}
+      >
         {text.split("").map((caracter, index) => (
           <Character
             state={
@@ -111,6 +168,7 @@ const Home = () => {
             {caracter}
           </Character>
         ))}
+        {!testStart ? <Overlay></Overlay> : null}
       </TextWrapper>
     </Wrapper>
   );
