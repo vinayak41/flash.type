@@ -1,12 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import styled from "styled-components";
 import data from "../data/text.json";
-
-const Wrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-`;
 
 const TextWrapper = styled.div`
   width: 75rem;
@@ -42,6 +36,7 @@ const TextWrapper = styled.div`
     border-radius: 8px;
   }
 `;
+
 const Character = styled.span`
   padding: 3px 4px;
   font-size: 2.5rem;
@@ -82,27 +77,10 @@ const Overlay = styled.div`
   left: 0;
 `;
 
-const StartButton = styled.button`
-  width: 6rem;
-  height: 3rem;
-  background-color: #95c590;
-  border-radius: 5px;
-  border: 1px solid white;
-  box-shadow: rgb(0, 0, 0) 0px 3px 8px;
-  font-size: 1rem;
-  letter-spacing: 2px;
-`;
-
-const Home = () => {
+const TypingBox = forwardRef(({ currentIndex, setCurrentIndex,  typingContainerRef, testStart}) => {
   const [text, setText] = useState(data[1]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [wrongCharIndexList, setWrongCharIndexList] = useState([]);
-  const [testStart, setTestStart] = useState(false);
-  const typingContainerRef = useRef(null);
 
-  const handleStartTest = () => {
-    typingContainerRef.current.focus();
-  };
 
   const handleTypingContainerOnFocus = () => {
     setTestStart(true);
@@ -113,15 +91,6 @@ const Home = () => {
     setTestStart(false);
     console.log("unfocused");
   };
-
-  useEffect(() => {
-    window.addEventListener("keydown", (e) => {
-      if (e.keyCode === 32) {
-        e.preventDefault();
-      }
-    });
-  }, []);
-
   const handleKeyPress = (event) => {
     if (event.keyCode === 8 && currentIndex) {
       event.preventDefault();
@@ -139,39 +108,33 @@ const Home = () => {
       setCurrentIndex((prevCount) => prevCount + 1);
     }
   };
-
   return (
-    <Wrapper>
-      <StartButton onClick={handleStartTest}>
-        Start
-      </StartButton>
-      <TextWrapper
-        ref={typingContainerRef}
-        onFocus={handleTypingContainerOnFocus}
-        onBlur={handleTypingContainerOnBlur}
-        tabIndex={0}
-        onKeyDown={handleKeyPress}
-      >
-        {text.split("").map((caracter, index) => (
-          <Character
-            state={
-              currentIndex === index
-                ? "current"
-                : currentIndex > index
-                ? wrongCharIndexList.includes(index) //check index is include in wrong character list
-                  ? "wrong"
-                  : "correct"
-                : "unset"
-            }
-            key={index}
-          >
-            {caracter}
-          </Character>
-        ))}
-        {!testStart ? <Overlay></Overlay> : null}
-      </TextWrapper>
-    </Wrapper>
+    <TextWrapper
+      ref={typingContainerRef}
+      onFocus={handleTypingContainerOnFocus}
+      onBlur={handleTypingContainerOnBlur}
+      tabIndex={0}
+      onKeyDown={handleKeyPress}
+    >
+      {text.split("").map((caracter, index) => (
+        <Character
+          state={
+            currentIndex === index
+              ? "current"
+              : currentIndex > index
+              ? wrongCharIndexList.includes(index) //check index is include in wrong character list
+                ? "wrong"
+                : "correct"
+              : "unset"
+          }
+          key={index}
+        >
+          {caracter}
+        </Character>
+      ))}
+      {!testStart ? <Overlay></Overlay> : null}
+    </TextWrapper>
   );
-};
+});
 
-export default Home;
+export default TypingBox;
