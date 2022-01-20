@@ -10,10 +10,19 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
+const RightSection = styled.div`
+  margin: auto;
+`;
+
 const Test = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [testStart, setTestStart] = useState(false);
-  const typingContainerRef = useRef(null);
+  const typingContainerRef = useRef();
+
+  const handleStartTest = () => {
+    typingContainerRef?.current.focus();
+    setTestStart(true);
+  };
 
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
@@ -30,9 +39,12 @@ const Test = () => {
         setCurrentIndex={setCurrentIndex}
         typingContainerRef={typingContainerRef}
         testStart={testStart}
+        setTestStart={setTestStart}
       />
-      <StartButton  />
-      <LiveResult typingContainerRef={typingContainerRef} />
+      <RightSection>
+        {testStart ? null : <StartButton handleStartTest={handleStartTest} />}
+        <LiveResult typingContainerRef={typingContainerRef} />
+      </RightSection>
     </Wrapper>
   );
 };
