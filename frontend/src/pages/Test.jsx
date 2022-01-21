@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import CountDown from "../components/CountDown";
 import LiveResult from "../components/LiveResult";
 import StartButton from "../components/StartButton";
 import TypingBox from "../components/TypingBox";
@@ -18,10 +19,27 @@ const Test = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [testStart, setTestStart] = useState(false);
   const typingContainerRef = useRef();
+  const [wrongCharIndexList, setWrongCharIndexList] = useState([]);
+  const [time, setTime] = useState(0);
+  const maxTime = 60
+
+  const startTimer = () => {
+    const timerInterval = setInterval(() => {
+        setTime(prevTime => {
+          if(prevTime >= maxTime) {
+            clearInterval(timerInterval)
+            setTestStart(false)
+            return prevTime
+          } 
+          return prevTime + 1;
+        })
+    }, 1000)
+  }
 
   const handleStartTest = () => {
     typingContainerRef?.current.focus();
     setTestStart(true);
+    startTimer();
   };
 
   useEffect(() => {
@@ -40,10 +58,13 @@ const Test = () => {
         typingContainerRef={typingContainerRef}
         testStart={testStart}
         setTestStart={setTestStart}
+        wrongCharIndexList={wrongCharIndexList}
+        setWrongCharIndexList={setWrongCharIndexList}
       />
       <RightSection>
         {testStart ? null : <StartButton handleStartTest={handleStartTest} />}
-        <LiveResult typingContainerRef={typingContainerRef} />
+        <CountDown time={time} maxTime={maxTime} />
+        <LiveResult />
       </RightSection>
     </Wrapper>
   );

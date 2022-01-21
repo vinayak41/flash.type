@@ -83,17 +83,18 @@ const TypingBox = forwardRef(
     setCurrentIndex,
     typingContainerRef,
     testStart,
-    setTestStart,
+    // setTestStart,
+    wrongCharIndexList,
+    setWrongCharIndexList,
   }) => {
     const [text, setText] = useState(data[1]);
-    const [wrongCharIndexList, setWrongCharIndexList] = useState([]);
 
     // const handleTypingContainerOnFocus = () => {
     //   setTestStart(true);
     // };
 
     const handleTypingContainerOnBlur = (event) => {
-      if(testStart) {
+      if (testStart) {
         typingContainerRef?.current.focus();
       }
     };
