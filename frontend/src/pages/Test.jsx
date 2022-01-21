@@ -21,20 +21,23 @@ const Test = () => {
   const typingContainerRef = useRef();
   const [wrongCharIndexList, setWrongCharIndexList] = useState([]);
   const [time, setTime] = useState(0);
-  const maxTime = 60
 
+  const maxTime = 60; //seconds
+  const speed = (currentIndex + 1) / 5 / (maxTime / 60); // ((total characters) / 5)  / time in minutes
+  const accurecy =
+    Math.floor((currentIndex + 1 - wrongCharIndexList.length) * 100 / currentIndex); // (total caracters - wrong character) * 100 / total caracters
   const startTimer = () => {
     const timerInterval = setInterval(() => {
-        setTime(prevTime => {
-          if(prevTime >= maxTime) {
-            clearInterval(timerInterval)
-            setTestStart(false)
-            return prevTime
-          } 
-          return prevTime + 1;
-        })
-    }, 1000)
-  }
+      setTime((prevTime) => {
+        if (prevTime >= maxTime) {
+          clearInterval(timerInterval);
+          setTestStart(false);
+          return prevTime;
+        }
+        return prevTime + 1;
+      });
+    }, 1000);
+  };
 
   const handleStartTest = () => {
     typingContainerRef?.current.focus();
@@ -64,7 +67,7 @@ const Test = () => {
       <RightSection>
         {testStart ? null : <StartButton handleStartTest={handleStartTest} />}
         <CountDown time={time} maxTime={maxTime} />
-        <LiveResult />
+        <LiveResult speed={speed} accurecy={accurecy} />
       </RightSection>
     </Wrapper>
   );

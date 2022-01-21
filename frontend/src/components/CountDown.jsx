@@ -20,7 +20,7 @@ const CircularProgress = styled.div`
   display: grid;
   place-items: center;
   background: conic-gradient(
-    #4d5bf9 ${(props) => props.time * 360/props.maxTime}deg,
+    #3395da ${(props) => props.time * 360/props.maxTime}deg,
     #cadcff ${(props) => props.time * 360/props.maxTime}deg
   );
   margin: 1rem;

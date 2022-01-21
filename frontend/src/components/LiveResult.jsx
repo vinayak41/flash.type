@@ -35,7 +35,7 @@ const Value = styled.div`
   }
 `;
 
-const LiveResult = () => {
+const LiveResult = ({speed, accurecy}) => {
   return (
     <Wrapper>
       <Label>
@@ -43,7 +43,7 @@ const LiveResult = () => {
         <p>SPEED</p>
       </Label>
       <Value>
-        <span>39</span>
+        <span>{speed}</span>
         <span>WPM</span>
       </Value>
       <Label>
@@ -51,7 +51,7 @@ const LiveResult = () => {
         <p>ACCURECY</p>
       </Label>
       <Value>
-        <span>92</span>
+        <span>{accurecy}</span>
         <span>%</span>
       </Value>
     </Wrapper>
