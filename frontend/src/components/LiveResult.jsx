@@ -36,6 +36,7 @@ const Value = styled.div`
 `;
 
 const LiveResult = ({speed, accurecy}) => {
+  console.log(accurecy)
   return (
     <Wrapper>
       <Label>
@@ -51,7 +52,7 @@ const LiveResult = ({speed, accurecy}) => {
         <p>ACCURECY</p>
       </Label>
       <Value>
-        <span>{accurecy}</span>
+        <span>{accurecy == "Infinity" ? 0 : accurecy || 0}</span>
         <span>%</span>
       </Value>
     </Wrapper>

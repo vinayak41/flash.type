@@ -89,36 +89,33 @@ const TypingBox = forwardRef(
   }) => {
     const [text, setText] = useState(data[1]);
 
-    // const handleTypingContainerOnFocus = () => {
-    //   setTestStart(true);
-    // };
-
-    const handleTypingContainerOnBlur = (event) => {
+    const handleTypingContainerOnBlur = () => {
       if (testStart) {
         typingContainerRef?.current.focus();
       }
     };
     const handleKeyPress = (event) => {
-      if (event.keyCode === 8 && currentIndex) {
-        event.preventDefault();
-        setWrongCharIndexList((prevList) =>
-          prevList.filter((indexValue) => indexValue !== currentIndex - 1)
-        );
-        setCurrentIndex((prevCount) => prevCount - 1);
-      } else if (
-        (48 <= event.keyCode && event.keyCode <= 222) ||
-        event.keyCode === 32
-      ) {
-        if (text[currentIndex] !== event.key) {
-          setWrongCharIndexList((prevList) => [...prevList, currentIndex]);
+      if (testStart) {
+        if (event.keyCode === 8 && currentIndex) {
+          event.preventDefault();
+          setWrongCharIndexList((prevList) =>
+            prevList.filter((indexValue) => indexValue !== currentIndex - 1)
+          );
+          setCurrentIndex((prevCount) => prevCount - 1);
+        } else if (
+          (48 <= event.keyCode && event.keyCode <= 222) ||
+          event.keyCode === 32
+        ) {
+          if (text[currentIndex] !== event.key) {
+            setWrongCharIndexList((prevList) => [...prevList, currentIndex]);
+          }
+          setCurrentIndex((prevCount) => prevCount + 1);
         }
-        setCurrentIndex((prevCount) => prevCount + 1);
       }
     };
     return (
       <TextWrapper
         ref={typingContainerRef}
-        // onFocus={handleTypingContainerOnFocus}
         onBlur={handleTypingContainerOnBlur}
         tabIndex={0}
         onKeyDown={handleKeyPress}

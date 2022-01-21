@@ -23,10 +23,11 @@ const Test = () => {
   const [time, setTime] = useState(0);
 
   const maxTime = 60; //seconds
-  const speed = (currentIndex + 1) / 5 / (maxTime / 60); // ((total characters) / 5)  / time in minutes
+  const speed = (currentIndex) / 5 / (maxTime / 60); // ((total characters) / 5)  / time in minutes
   const accurecy =
-    Math.floor((currentIndex + 1 - wrongCharIndexList.length) * 100 / currentIndex); // (total caracters - wrong character) * 100 / total caracters
-  const startTimer = () => {
+    Math.floor((currentIndex - wrongCharIndexList.length) * 100 / currentIndex); // (total caracters - wrong character) * 100 / total caracters
+  
+    const startTimer = () => {
     const timerInterval = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime >= maxTime) {
