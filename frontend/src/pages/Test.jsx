@@ -42,6 +42,9 @@ const Test = () => {
   };
 
   const handleStartTest = () => {
+    setTime(0)
+    setCurrentIndex(0)
+    setWrongCharIndexList([])
     typingContainerRef?.current.focus();
     setTestStart(true);
     startTimer();
