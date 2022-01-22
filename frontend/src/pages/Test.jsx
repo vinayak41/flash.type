@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import CountDown from "../components/CountDown";
+import Header from "../components/Header";
 import LiveResult from "../components/LiveResult";
 import StartButton from "../components/StartButton";
 import TypingBox from "../components/TypingBox";
@@ -55,6 +56,8 @@ const Test = () => {
   }, []);
 
   return (
+    <>
+    <Header />
     <Wrapper>
       <TypingBox
         currentIndex={currentIndex}
@@ -71,6 +74,7 @@ const Test = () => {
         <LiveResult speed={speed} accurecy={accurecy} />
       </RightSection>
     </Wrapper>
+    </>
   );
 };
 

@@ -4,13 +4,13 @@ import data from "../data/text.json";
 
 const TextWrapper = styled.div`
   width: 75rem;
-  margin: auto;
-  height: 75vh;
+  margin-top: 1rem;
+  /* height: 75vh; */
   overflow-y: scroll;
   overflow-x: hidden;
   box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
     rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
   border: 1px solid rgb(204, 219, 232);
   position: relative;
@@ -65,17 +65,17 @@ const Character = styled.span`
   margin: 1px;
 `;
 
-const Overlay = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #ffffffb0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: sticky;
-  bottom: 0;
-  left: 0;
-`;
+// const Overlay = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   background-color: #ffffffb0;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   position: sticky;
+//   bottom: 0;
+//   left: 0;
+// `;
 
 const TypingBox = forwardRef(
   ({
@@ -136,7 +136,7 @@ const TypingBox = forwardRef(
             {caracter}
           </Character>
         ))}
-        {!testStart ? <Overlay></Overlay> : null}
+        {/* {!testStart ? <Overlay></Overlay> : null} */}
       </TextWrapper>
     );
   }
